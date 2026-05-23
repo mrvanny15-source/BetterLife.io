@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Posting Website</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      .upload-box {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 500px;
+        margin: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      input,
+      textarea,
+      button {
+        width: 100%;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .videos {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .video-card {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      video {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .title {
+        font-size: 20px;
+        margin-top: 10px;
+        color: #222;
+      }
+
+      .description {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Video Posting Website</h1>
+
+    <div class="upload-box">
+      <input type="text" id="title" placeholder="Video Title" />
+
+      <textarea id="description" placeholder="Video Description"></textarea>
+
+      <input type="file" id="videoFile" accept="video/*" />
+
+      <button onclick="uploadVideo()">Post Video</button>
+    </div>
+
+    <div class="videos" id="videoContainer"></div>
+
+    <script>
+      function uploadVideo() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const videoFile = document.getElementById("videoFile").files[0];
+
+        if (!title || !description || !videoFile) {
+          alert("Please fill all fields!");
+          return;
+        }
+
+        const videoURL = URL.createObjectURL(videoFile);
+
+        const videoCard = document.createElement("div");
+        videoCard.className = "video-card";
+
+        videoCard.innerHTML = `
+        <video controls>
+          <source src="${videoURL}" type="${videoFile.type}">
+        </video>
+
+        <div class="title">${title}</div>
+        <div class="description">${description}</div>
+      `;
+
+        document.getElementById("videoContainer").prepend(videoCard);
+
+        // Clear form
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        document.getElementById("videoFile").value = "";
+      }
+    </script>
+  </body>
+</html>
